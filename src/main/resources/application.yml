@@ -13,3 +13,7 @@ netty:
   default:
     allocator:
       max-order: 3
+
+clients:
+  httpbin:
+    call1: https://httpbin.org/get
