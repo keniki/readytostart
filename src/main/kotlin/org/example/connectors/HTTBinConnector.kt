@@ -12,4 +12,8 @@ class HTTBinConnector(
   override fun  returnCall():String{
       return call
   }
+
+  override fun  returnSomethingViaGet():String{
+        return call
+    }
 }
