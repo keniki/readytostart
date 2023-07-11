@@ -5,6 +5,7 @@ import io.micronaut.http.annotation.Get
 import org.example.models.getresponse.BinResponse
 import org.example.services.Service
 import org.reactivestreams.Publisher
+import reactor.core.publisher.Mono
 import java.util.Objects
 
 @Controller("/readytostart")
@@ -20,5 +21,10 @@ class ReadytostartController(service: Service) {
     @Get(uri = "/high", produces = ["application/json"])
     fun high(): Publisher<BinResponse?>? {
         return miService.returnFromHighLevel()
+    }
+
+    @Get(uri = "/low", produces = ["application/json"])
+    fun low(): Mono<BinResponse> {
+        return miService.returnFromLowLevel()
     }
 }

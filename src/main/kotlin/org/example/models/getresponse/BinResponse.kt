@@ -8,7 +8,6 @@ import io.micronaut.serde.annotation.Serdeable
 
 @Bean
 @Introspected
-@Serdeable.Deserializable
 @Serdeable
 data class BinResponse (
 
