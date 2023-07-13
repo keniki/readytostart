@@ -2,7 +2,6 @@ package org.example.connectors
 
 import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Value
-import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpHeaders
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.HttpClient
