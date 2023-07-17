@@ -8,11 +8,13 @@ import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.uri.UriBuilder
 import jakarta.inject.Singleton
+import org.example.annotations.AllOpen
 import org.example.models.getresponse.BinResponse
 import reactor.core.publisher.Mono
 import java.net.URI
 
 @Singleton
+@AllOpen
 class HTTBinLowLevelConnector(
     @Value("\${clients.httpbin.call1}")
     private var call: String,

@@ -18,7 +18,7 @@ import org.mockito.Mockito.`when`
 import reactor.core.publisher.Mono
 
 @MicronautTest
-class ReadytostartTest {
+class ReadyToStartTest {
 
     @Inject
     lateinit var application: EmbeddedApplication<*>
@@ -41,33 +41,25 @@ class ReadytostartTest {
         Assertions.assertEquals(expectedValue, response?.body?.get())
     }
 
-//    @MockBean(GenericConnector::class)
-//    fun genericConnector(): GenericConnector{
-//        return mock(HTTBinLowLevelConnector::class.java)
-//    }
-    //@Inject
-    @MockBean
+    @MockBean(GenericConnector::class)
+    fun  genericConnector():GenericConnector{
+        return mock(GenericConnector::class.java)
+    }
+    @Inject
     lateinit var genericConnector: GenericConnector
+
     @Test
     fun testLowLevelCall()  {
-        val expectedValue = "https://httpbin.org/get"
-
-
-        //val dependencyMock: HTTBinLowLevelConnector = mock(HTTBinLowLevelConnector::class.java)
 
         // Configure mock behavior
-        val expectedResponse = BinResponse( Args("param"), Headers("", ""), "origin", "url")
+        val expectedResponse = BinResponse( Args("param"), Headers("mocked", ""), "origin", "url")
         `when`(genericConnector.returnSomethingViaGet()).thenReturn(Mono.just(expectedResponse))
 
-
-       // val myClass = HTTBinLowLevelConnector("https://httpbin.org/get",client)
-
         val response2 =  genericConnector.returnSomethingViaGet()
-        //val response : io.micronaut.http.HttpResponse<String>? =
-        //    client.toBlocking().exchange("/low", String::class.java)
+
 
         //Assertions.assertEquals(HttpStatus.OK, response?.status)
-        Assertions.assertEquals(expectedResponse,  response2.block().url)
+        Assertions.assertEquals(expectedResponse,  response2.block())
     }
 
 
