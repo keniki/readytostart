@@ -8,8 +8,8 @@ import java.util.Objects
 
 interface Service {
 
-    fun getValue (): String
-    fun returnFromHighLevel(): Publisher<BinResponse?>?
-    fun returnFromLowLevel(): Mono<BinResponse>
+    suspend fun getValue (): String
+    suspend fun returnFromHighLevel(): BinResponse
+    suspend fun returnFromLowLevel(): BinResponse
 
 }

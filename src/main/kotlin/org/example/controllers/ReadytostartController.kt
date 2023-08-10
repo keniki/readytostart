@@ -1,5 +1,7 @@
 package org.example.controllers
 
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import org.example.models.getresponse.BinResponse
@@ -14,17 +16,17 @@ class ReadytostartController(service: Service) {
     val miService = service
 
     @Get(uri = "/", produces = ["application/json"])
-    fun index(): String {
+    suspend fun index(): String {
         return miService.getValue()
     }
 
     @Get(uri = "/high", produces = ["application/json"])
-    fun high(): Publisher<BinResponse?>? {
-        return miService.returnFromHighLevel()
+   suspend fun high(): HttpResponse<BinResponse?>? {
+        return HttpResponse.ok (miService.returnFromHighLevel())
     }
 
     @Get(uri = "/low", produces = ["application/json"])
-    fun low(): Mono<BinResponse> {
-        return miService.returnFromLowLevel()
+    suspend fun low():  HttpResponse<BinResponse> {
+        return HttpResponse.ok (miService.returnFromLowLevel())
     }
 }

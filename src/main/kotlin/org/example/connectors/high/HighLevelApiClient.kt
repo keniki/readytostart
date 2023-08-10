@@ -1,4 +1,4 @@
-package org.example.connectors
+package org.example.connectors.high
 
 import io.micronaut.http.HttpHeaders.ACCEPT
 import io.micronaut.http.HttpHeaders.USER_AGENT
@@ -18,5 +18,5 @@ import java.util.Objects
 interface  HighLevelApiClient {
 
     @Get("/")
-    fun fetchReturned(): Publisher<BinResponse?>?
+    fun fetchReturned(): BinResponse
 }

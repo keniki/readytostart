@@ -1,16 +1,15 @@
-package org.example.connectors
+package org.example.connectors.low
 
-import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Value
 import io.micronaut.http.HttpHeaders
 import io.micronaut.http.HttpRequest
-import io.micronaut.http.client.HttpClient
+import io.micronaut.http.MediaType
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.uri.UriBuilder
+import io.micronaut.reactor.http.client.ReactorHttpClient
 import jakarta.inject.Singleton
 import org.example.annotations.AllOpen
 import org.example.models.getresponse.BinResponse
-import reactor.core.publisher.Mono
 import java.net.URI
 
 @Singleton
@@ -18,7 +17,7 @@ import java.net.URI
 class HTTBinLowLevelConnector(
     @Value("\${clients.httpbin.call1}")
     private var call: String,
-    @param:Client(id = "github") private val httpClient: HttpClient
+    @param:Client(id = "github") private val httpClient: ReactorHttpClient
                 ): GenericConnector {
 
     private val uri: URI = UriBuilder.of(call)
@@ -26,15 +25,16 @@ class HTTBinLowLevelConnector(
 //        .path(configuration.repo)
 //        .path("releases")
         .build()
-  override fun  returnUrl():String{
-
+  override suspend fun returnUrl():String{
       return call
   }
 
-  override fun  returnSomethingViaGet(): Mono<BinResponse> {
-      val req: HttpRequest<*> = HttpRequest.GET<Any>(uri)
+  override suspend fun  returnSomethingViaGet(): BinResponse {
+      return httpClient.retrieve( HttpRequest.GET<BinResponse>(uri)
           .header(HttpHeaders.USER_AGENT, "Micronaut HTTP Client")
           .header(HttpHeaders.ACCEPT, "application/json")
-      return Mono.from(httpClient.retrieve(req, BinResponse::class.java))
+          .contentType(MediaType.APPLICATION_HAL_JSON_TYPE), BinResponse::class.java)
+          .onErrorStop().blockFirst() ?: BinResponse(origin="Error")
+
     }
 }
