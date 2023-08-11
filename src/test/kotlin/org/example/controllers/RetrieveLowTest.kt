@@ -6,12 +6,10 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.runBlocking
 import org.example.models.getresponse.BinResponse
 import org.example.services.Service
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
-import reactor.core.publisher.Mono
 
 
 @MicronautTest

@@ -1,8 +1,8 @@
 package org.example.services
 
 import io.micronaut.context.annotation.Bean
-import org.example.connectors.low.GenericConnector
 import org.example.connectors.high.HighLevelApiClient
+import org.example.connectors.low.GenericConnector
 import org.example.models.getresponse.BinResponse
 
 @Bean
@@ -15,11 +15,17 @@ class ServiceImpl(val connector: GenericConnector,
     }
 
 
-    override suspend fun returnFromHighLevel(): BinResponse {
-        return githubApiClient.fetchReturned()
+    override suspend fun returnFromHighLevel(): BinResponse =
+        doBizLogic(githubApiClient.fetchReturned("valueFromConnector"))
+
+
+    private fun doBizLogic(fetchReturned: BinResponse): BinResponse {
+        val someValue = "Value calculated in the service layer"
+        fetchReturned.serviceField = someValue
+        return fetchReturned
     }
 
-    override suspend fun returnFromLowLevel(): BinResponse {
-        return  binApiClient.returnSomethingViaGet()
-    }
+    override suspend fun returnFromLowLevel(): BinResponse =
+        doBizLogic(binApiClient.returnSomethingViaGet())
+
 }

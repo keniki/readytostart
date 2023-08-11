@@ -15,7 +15,7 @@ import java.net.URI
 @Singleton
 @AllOpen
 class HTTBinLowLevelConnector(
-    @Value("\${clients.httpbin.call1}")
+    @Value("\${clients.httpbin.getCall}")
     private var call: String,
     @param:Client(id = "github") private val httpClient: ReactorHttpClient
                 ): GenericConnector {
@@ -30,11 +30,17 @@ class HTTBinLowLevelConnector(
   }
 
   override suspend fun  returnSomethingViaGet(): BinResponse {
-      return httpClient.retrieve( HttpRequest.GET<BinResponse>(uri)
-          .header(HttpHeaders.USER_AGENT, "Micronaut HTTP Client")
-          .header(HttpHeaders.ACCEPT, "application/json")
-          .contentType(MediaType.APPLICATION_HAL_JSON_TYPE), BinResponse::class.java)
-          .onErrorStop().blockFirst() ?: BinResponse(origin="Error")
+      val externalResponse = externalResponse()
+      externalResponse.connectorField="Added in connector"
+      return externalResponse
 
     }
+
+    private fun externalResponse() = httpClient.retrieve(
+        HttpRequest.GET<BinResponse>(uri)
+            .header(HttpHeaders.USER_AGENT, "Micronaut HTTP Client")
+            .header(HttpHeaders.ACCEPT, "application/json")
+            .contentType(MediaType.APPLICATION_HAL_JSON_TYPE), BinResponse::class.java
+    )
+        .onErrorStop().blockFirst() ?: BinResponse(origin = "Error")
 }

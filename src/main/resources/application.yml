@@ -16,4 +16,4 @@ netty:
 
 clients:
   httpbin:
-    call1: https://httpbin.org/get
+    getCall: https://httpbin.org/get

@@ -11,9 +11,12 @@ import io.micronaut.serde.annotation.Serdeable
 @Serdeable
 data class BinResponse (
 
-  @SerializedName("args"    ) var args    : Args?    = Args(),
-  @SerializedName("headers" ) var headers : Headers? = Headers(),
-  @SerializedName("origin"  ) var origin  : String?  = null,
-  @SerializedName("url"     ) var url     : String?  = null
+  @SerializedName("args"        ) var args          : Args?    = Args(),
+  @SerializedName("headers"     ) var headers       : Headers? = Headers(),
+  @SerializedName("origin"      ) var origin        : String?  = null,
+  @SerializedName("url"         ) var url           : String?  = null,
+  @SerializedName("serviceField") var serviceField  : String?  = "",
+  @SerializedName("connectorField") var connectorField  : String?  = "",
 
-)
+
+  )
